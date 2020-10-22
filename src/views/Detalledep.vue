@@ -47,12 +47,14 @@
                         <thead>
                             <tr>
                             <th>Nombre</th>
+                            <th>Apellido</th>
                             <th>Email</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="usert in dependenciaactual.users" :key="usert.email">
                             <td>{{usert.nombre}}</td>
+                            <td>{{usert.apellido}}</td>
                             <td>{{usert.email}}</td>
                             </tr>
                         </tbody>

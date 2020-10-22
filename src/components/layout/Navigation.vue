@@ -27,7 +27,7 @@
                 {{ user.displayName || user.email }}
               </a>
               <div class="navbar-dropdown">
-                <router-link class="navbar-item" to="/dashboard">
+                <router-link class="navbar-item" to="/dependencias">
                   Dependencias
                 </router-link>
                 <router-link class="navbar-item" to="/usuarios">

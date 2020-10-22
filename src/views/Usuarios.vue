@@ -4,8 +4,6 @@
       <ul>
         <li v-bind:class="{ 'is-active': isActive == 'pictures' }"><a v-on:click="isActive = 'pictures'">Crear Usuarios</a></li>
         <li v-bind:class="{ 'is-active': isActive == 'music' }"><a v-on:click="isActive = 'music'">Listar Usuarios</a></li>
-        <li v-bind:class="{ 'is-active': isActive == 'videos' }"><a v-on:click="isActive = 'videos'">Videos</a></li>
-        <li v-bind:class="{ 'is-active': isActive == 'documents' }"><a v-on:click="isActive = 'documents'">Documents</a></li>
       </ul>
     </div>
     <div class="tab-contents">
@@ -41,6 +39,13 @@
                   <label class="label">Contraseña</label>
                   <div class="control">
                     <input class="input" type="password" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.password">
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Valido hasta</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.validohasta">
                   </div>
                 </div>
 
@@ -104,6 +109,7 @@
               <th>Apellidos</th>
               <th>Email</th>
               <th>Dependencia</th>
+              <th>Valido hasta</th>
               <th>Activo</th>
               <th>Editar</th>
               <th>Eliminar</th>
@@ -127,19 +133,14 @@
               <td>{{usert.apellidos}}</td>
               <td>{{usert.email}}</td>
               <td>{{usert.dependencia}}</td>
+              <td>{{usert.validohasta}}</td>
               <td>{{usert.activo}}</td>
               <td><button type="submit" class="button is-primary" @click.prevent="editar(usert)">Editar</button></td>
-              <td><button type="submit" class="button is-primary" @click.prevent="eliminar">Eliminar</button></td>
+              <td><button type="submit" class="button is-primary" @click.prevent="eliminar(usert)">Eliminar</button></td>
             </tr>
           </tbody>
         </table>
 
-      </div>
-      <div class="content" v-bind:class="{ 'is-active': isActive == 'videos' }">
-        Videos content
-      </div>
-      <div class="content" v-bind:class="{ 'is-active': isActive == 'documents' }">
-        Documents content
       </div>
     </div>
   </div>
@@ -166,7 +167,7 @@ export default {
       usuariosBuscados: [],
       
     }
-  }, name : 'Dashboard',
+  }, name : 'Usuarios',
   created(){
       this.listarDependencias();
       this.listarUsuarios()
@@ -205,7 +206,7 @@ export default {
                 console.log(this.dependencias)
                 this.dependencias.push(dep)
 
-                console.log(this.dependencias)
+                //console.log(this.dependencias)
             });
         } catch (error) {
             console.log(error)
@@ -214,6 +215,9 @@ export default {
     async listarUsuarios(){
       try {
         const resDB = await db.collection('users').get()
+
+        this.usuarios.splice(0, this.usuarios.length)
+        
         resDB.forEach(res => {
             //console.log(res);
             const us = {
@@ -223,12 +227,15 @@ export default {
                 email: res.data().email,
                 password: res.data().password,
                 dependencia: res.data().dependencia,
+                validohasta: res.data().validohasta,
                 activo: res.data().activo
             }
+            
             this.usuarios.push(us)
 
             //console.log(this.dependencias)
         });
+        
       } catch (error) {
         console.log(error)
       }
@@ -246,6 +253,7 @@ export default {
               this.dependenciatemp = this.dependencias.find(element => element.nombre === this.usuario.dependencia);
               this.dependenciatemp.users.push({
                 nombre: this.usuario.nombres, 
+                apellido: this.usuario.apellidos,
                 email: this.usuario.email
               });
 
@@ -260,8 +268,13 @@ export default {
                 this.usuario.apellidos = ''
                 this.usuario.email = ''
                 this.usuario.password = ''
-                this.$router.push({name: 'usuarios'})  
+                this.usuario.validohasta = ''
+                this.usuario.dependencia = ''
+                this.usuario.activo = ''
+                //this.$router.push({name: 'usuarios'})  
               })
+
+              this.listarUsuarios()
                  
             }            
           }).catch(err => {
@@ -278,8 +291,10 @@ export default {
      
       },
 
-    eliminar(){
-      console.log("eliminar")
+    eliminar(usert){
+      this.ref.doc(usert.id).delete();
+      this.listarUsuarios()
+
     }
   }
 }
