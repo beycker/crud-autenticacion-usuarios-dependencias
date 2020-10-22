@@ -14,7 +14,7 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h3 class="title is-3">Crear un usuario</h3><hr>
-              <form action="#" @submit.prevent="register">
+              <form action="#" @submit.prevent="register()">
                 
                 <div class="field">
                   <label class="label">Nombres</label>
@@ -79,6 +79,24 @@
       </div>
       <div class="content" v-bind:class="{ 'is-active': isActive == 'music' }">
         
+         <div class="field has-addons has-addons-centered">
+          <p class="control">
+            <input class="input" type="text" v-model="search" placeholder="Por ejemplo Andrés"/>
+          </p>
+          <p class="control">
+            <a class="button is-primary"  @click.prevent="filtrarUsuariosN()"> Buscar por nombre </a>
+          </p>
+        </div>
+
+              <div class="field has-addons has-addons-centered">
+          <p class="control">
+            <input class="input" type="text" v-model="searchd" placeholder="Por ejemplo Ventas"/>
+          </p>
+          <p class="control">
+            <a class="button is-primary"  @click.prevent="filtrarUsuariosD()"> Buscar por dependencia </a>
+          </p>
+        </div>
+
         <table class="table">
           <thead>
             <tr>
@@ -91,14 +109,26 @@
               <th>Eliminar</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="this.usuariosBuscados.length>0">
+            <tr v-for="usert in usuariosBuscados" :key="usert.email">
+              <td>{{usert.nombres}}</td>
+              <td>{{usert.apellidos}}</td>
+              <td>{{usert.email}}</td>
+              <td>{{usert.dependencia}}</td>
+              <td>{{usert.activo}}</td>
+              <td><button type="submit" class="button is-primary" @click.prevent="editar(usert)">Editar</button></td>
+              <td><button type="submit" class="button is-primary" @click.prevent="eliminar">Eliminar</button></td>
+            </tr>
+          </tbody>
+
+          <tbody v-if="this.usuariosBuscados.length==0">
             <tr v-for="usert in usuarios" :key="usert.email">
               <td>{{usert.nombres}}</td>
               <td>{{usert.apellidos}}</td>
               <td>{{usert.email}}</td>
               <td>{{usert.dependencia}}</td>
               <td>{{usert.activo}}</td>
-              <td><button type="submit" class="button is-primary" @click.prevent="editar">Editar</button></td>
+              <td><button type="submit" class="button is-primary" @click.prevent="editar(usert)">Editar</button></td>
               <td><button type="submit" class="button is-primary" @click.prevent="eliminar">Eliminar</button></td>
             </tr>
           </tbody>
@@ -130,7 +160,11 @@ export default {
       usuarios: [],
       dependencias: [],
       dependenciatemp: '',
-      error: ''
+      error: '',
+      search: '',
+      searchd: '',
+      usuariosBuscados: [],
+      
     }
   }, name : 'Dashboard',
   created(){
@@ -138,6 +172,21 @@ export default {
       this.listarUsuarios()
   },
   methods: {
+
+  filtrarUsuariosN(){
+    this.usuariosBuscados = this.usuarios.filter(usuario => { 
+    return usuario.nombres.toLowerCase().includes(this.search.toLowerCase()) 
+    } 
+   );
+   },
+
+   filtrarUsuariosD(){
+     this.usuariosBuscados = this.usuarios.filter(usuario => {
+       console.log("usuarios buscados : "+this.usuariosBuscados)
+       return usuario.dependencia.toLowerCase().includes(this.searchd.toLowerCase())
+            })
+   },
+
     async listarDependencias(){
         try {
             const resDB = await db.collection('dependencias').get()
@@ -153,6 +202,7 @@ export default {
                     activa: res.data().activa,
                     users: res.data().users
                 }
+                console.log(this.dependencias)
                 this.dependencias.push(dep)
 
                 console.log(this.dependencias)
@@ -167,7 +217,7 @@ export default {
         resDB.forEach(res => {
             //console.log(res);
             const us = {
-              
+                id: res.id,
                 nombres: res.data().nombres,
                 apellidos: res.data().apellidos,
                 email: res.data().email,
@@ -221,9 +271,13 @@ export default {
         this.error = 'Todos los campos son requeridos'
       }
     },
-    editar(){
-      console.log("editar")
-    },
+
+    editar(usert){
+
+      this.$router.push({ name: "editarusr", params: { usractual: usert } }) 
+     
+      },
+
     eliminar(){
       console.log("eliminar")
     }

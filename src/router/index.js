@@ -8,7 +8,8 @@ import Usuarios from '../views/Usuarios.vue'
 import Detalle from '../views/Detalledep.vue'
 //import Wall from '../views/Wall.vue'
 import firebase from 'firebase'
-
+import Editar from '../views/Editardep.vue'
+import Editarusr from '../views/Editarusr.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -41,6 +42,24 @@ const router = new Router({
       path: '/detalle',
       name: 'detalle',
       component: Detalle,
+      props: true,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/editar',
+      name: 'editar',
+      component: Editar,
+      props: true,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/editarusr',
+      name: 'editarusr',
+      component: Editarusr,
       props: true,
       meta: {
         requiresAuth: true

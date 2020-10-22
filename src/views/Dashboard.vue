@@ -190,9 +190,9 @@ export default {
     ,
     editar(dept){
       
-      console.log(dept)
+      //console.log(dept)
       //console.log(this.mensaje.nombre + this.mensaje.apellido)
-     //this.$router.push({name: 'detalle', params: {dependenciaactual: dept}})  
+     this.$router.push({name: 'editar', params: {dependenciaactual: dept}})  
     },
     eliminar(dept){
       console.log(dept)
