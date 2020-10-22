@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
-import Dashboard from '../views/Dashboard.vue'
+import Dependencias from '../views/Dependencias.vue'
 import Usuarios from '../views/Usuarios.vue'
 import Detalle from '../views/Detalledep.vue'
 //import Wall from '../views/Wall.vue'
@@ -29,9 +29,9 @@ const router = new Router({
       component: Register
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: Dashboard,
+      path: '/dependencias',
+      name: 'dependencias',
+      component: Dependencias,
       props: true,
       meta: {
         requiresAuth: true

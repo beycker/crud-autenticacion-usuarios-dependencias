@@ -6,9 +6,16 @@
         <form action="#" @submit.prevent="register">
           
           <div class="field">
-            <label class="label">Name</label>
+            <label class="label">Nombres</label>
             <div class="control">
-              <input class="input" type="text" placeholder="e.g Alex Smith" v-model="usuario.name">
+              <input class="input" type="text" placeholder="e.g Alex Smith" v-model="usuario.nombres">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Apellidos</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.apellidos">
             </div>
           </div>
 
@@ -22,7 +29,7 @@
           <div class="field">
             <label class="label">Contraseña</label>
             <div class="control">
-              <input class="input" type="password" v-model="usuario.password">
+              <input class="input" type="password" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.password">
             </div>
           </div>
 
@@ -56,7 +63,7 @@ export default {
   methods: {
     register() {
       this.error = ''
-      if (this.usuario.name && this.usuario.email && this.usuario.password) {
+      if (this.usuario.nombres && this.usuario.apellidos && this.usuario.email && this.usuario.password) {
         firebase.auth().createUserWithEmailAndPassword(this.usuario.email, this.usuario.password)
           .then(user => {
             //actualizar el usuario
@@ -64,7 +71,8 @@ export default {
                 
                 this.ref.add(this.usuario).then((docRef) =>{
                   console.log(docRef);
-                  this.usuario.name = ''
+                  this.usuario.nombres = ''
+                  this.usuario.apellidos = ''
                   this.usuario.email = ''
                   this.usuario.password = ''
                   this.$router.push({name: 'dashboard'})  

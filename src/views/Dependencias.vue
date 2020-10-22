@@ -4,8 +4,6 @@
       <ul>
         <li v-bind:class="{ 'is-active': isActive == 'pictures' }"><a v-on:click="isActive = 'pictures'">Crear Dependencia</a></li>
         <li v-bind:class="{ 'is-active': isActive == 'music' }"><a v-on:click="isActive = 'music'">Listar Dependencias</a></li>
-        <li v-bind:class="{ 'is-active': isActive == 'videos' }"><a v-on:click="isActive = 'videos'">Videos</a></li>
-        <li v-bind:class="{ 'is-active': isActive == 'documents' }"><a v-on:click="isActive = 'documents'">Documents</a></li>
       </ul>
     </div>
     <div class="tab-contents">
@@ -101,12 +99,6 @@
         </div>
 
       </div>
-      <div class="content" v-bind:class="{ 'is-active': isActive == 'videos' }">
-        Videos content
-      </div>
-      <div class="content" v-bind:class="{ 'is-active': isActive == 'documents' }">
-        Documents content
-      </div>
     </div>
   </div>
 
@@ -133,7 +125,7 @@ export default {
       dependencias: [],
       error: ''
     }
-  }, name : 'Dashboard',
+  }, name : 'Dependencias',
   created() {
     this.listarDependencias()
   },
@@ -141,6 +133,8 @@ export default {
     async listarDependencias(){
         try {
             const resDB = await this.ref.get()
+            
+            this.dependencias.splice(0, this.dependencias.length)
 
             resDB.forEach(res => {
                 //console.log(res);
@@ -153,6 +147,7 @@ export default {
                     activa: res.data().activa,
                     users: res.data().users
                 }
+                
                 this.dependencias.push(dep)
 
                 //console.log(this.dependencias)
@@ -177,8 +172,11 @@ export default {
           this.dependencia.coordinador = ''
           this.dependencia.maximo = ''
           this.dependencia.ubicacion = ''
-          this.$router.push({name: 'dashboard'})  
+          this.dependencia.activa = ''
+          //this.$router.push({name: 'dependencias'})  
         })
+
+        this.listarDependencias()
 
       }else {
         this.error = 'Todos los campos son requeridos'
