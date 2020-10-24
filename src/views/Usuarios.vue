@@ -12,7 +12,7 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h3 class="title is-3">Crear un usuario</h3><hr>
-              <form action="#" @submit.prevent="register()">
+              <form action="#" @submit.prevent="register">
                 
                 <div class="field">
                   <label class="label">Nombres</label>
@@ -71,7 +71,7 @@
 
                 
 
-                <button type="submit" class="button is-primary">Crear</button>
+                <button type="submit" class="button is-primary" @click.prevent="register()" >Crear</button>
               </form>
 
               <div class="notification is-danger mt-10" v-if="error">  
@@ -121,9 +121,10 @@
               <td>{{usert.apellidos}}</td>
               <td>{{usert.email}}</td>
               <td>{{usert.dependencia}}</td>
+              <td>{{usert.validohasta}}</td>
               <td>{{usert.activo}}</td>
               <td><button type="submit" class="button is-primary" @click.prevent="editar(usert)">Editar</button></td>
-              <td><button type="submit" class="button is-primary" @click.prevent="eliminar">Eliminar</button></td>
+              <td><button type="submit" class="button is-primary" @click.prevent="eliminar(usert)">Eliminar</button></td>
             </tr>
           </tbody>
 
@@ -166,6 +167,7 @@ export default {
       searchd: '',
       usuariosBuscados: [],
       
+      
     }
   }, name : 'Usuarios',
   created(){
@@ -183,7 +185,6 @@ export default {
 
    filtrarUsuariosD(){
      this.usuariosBuscados = this.usuarios.filter(usuario => {
-       console.log("usuarios buscados : "+this.usuariosBuscados)
        return usuario.dependencia.toLowerCase().includes(this.searchd.toLowerCase())
             })
    },

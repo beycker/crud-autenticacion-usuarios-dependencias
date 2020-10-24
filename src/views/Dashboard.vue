@@ -101,12 +101,7 @@
         </div>
 
       </div>
-      <div class="content" v-bind:class="{ 'is-active': isActive == 'videos' }">
-        Videos content
-      </div>
-      <div class="content" v-bind:class="{ 'is-active': isActive == 'documents' }">
-        Documents content
-      </div>
+     
     </div>
   </div>
 
