@@ -28,6 +28,14 @@
                 </div> 
 
                 <div class="field">
+                  <label class="label">Valido hasta</label>
+                  <div class="control">
+                      <input class="input" type="text" v-model="usractual.validohasta">
+                  </div>
+                </div> 
+
+
+                <div class="field">
                   <label class="label">Dependencia</label>
                   <div class="select">
                     <select v-model="usractual.dependencia">
@@ -119,6 +127,8 @@ this.misUsuarios();
                   apellidos: res.data().apellidos,
                   email: res.data().email,
                   password: res.data().dependencia,
+                  dependencia: res.data().dependencia,
+                  validohasta: res.data().validohasta,
                   activo: res.data().activo
               }
              this.listusers.push(usrs)
@@ -134,6 +144,8 @@ this.misUsuarios();
            apellidos: usractual.apellidos,
            email: usractual.email,
            dependencia: usractual.dependencia,
+           validohasta: usractual.validohasta,
+           activo: usractual.activo
            
        })
 
@@ -142,6 +154,9 @@ this.misUsuarios();
         usractual.apellidos = ''
         usractual.email = ''
         usractual.dependencia = ''
+        usractual.validohasta = ''
+        usractual.activo = ''
+
         alert("¡El usuario se ha actualizado con exito! \nDirijase a la lista de usuarios para ver los cambios.")
       
       
