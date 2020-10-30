@@ -1,24 +1,2 @@
-# crud-autenticacion
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+El informe se encuentra en el siguiente enlace : 
+https://drive.google.com/file/d/1utdPr39WiYDFysexG422QFo7jc3Vf4g0/view?usp=sharing
