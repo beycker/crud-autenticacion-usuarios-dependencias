@@ -75,7 +75,7 @@ export default {
                   this.usuario.apellidos = ''
                   this.usuario.email = ''
                   this.usuario.password = ''
-                  this.$router.push({name: 'dashboard'})  
+                  this.$router.push({name: 'home'})  
                 })
                  
 

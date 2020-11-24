@@ -17,21 +17,21 @@
                 <div class="field">
                   <label class="label">Nombres</label>
                   <div class="control">
-                    <input class="input" type="text" placeholder="e.g Alex Smith" v-model="usuario.nombres">
+                    <input class="input" type="text" placeholder="e.g Alex Smith" v-model="usuario.firtsname">
                   </div>
                 </div>
 
                 <div class="field">
                   <label class="label">Apellidos</label>
                   <div class="control">
-                    <input class="input" type="text" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.apellidos">
+                    <input class="input" type="text" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.lastname">
                   </div>
                 </div>
 
                 <div class="field">
-                  <label class="label">Email</label>
+                  <label class="label">Usuario</label>
                   <div class="control">
-                    <input class="input" type="email" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.email">
+                    <input class="input" type="email" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.username">
                   </div>
                 </div>
 
@@ -43,26 +43,23 @@
                 </div>
 
                 <div class="field">
-                  <label class="label">Valido hasta</label>
+                  <label class="label">Identificacion</label>
                   <div class="control">
-                    <input class="input" type="text" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.validohasta">
+                    <input class="input" type="text" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.identification">
                   </div>
                 </div>
 
                 <div class="field">
-                  <label class="label">Dependencia</label>
-                  <div class="select">
-                    <select v-model="usuario.dependencia">
-                        <option v-for="dependencia in dependencias" :key="dependencia.id">{{ dependencia.nombre }}</option>
-                        
-                    </select>
-                   </div>
+                  <label class="label">Foto</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="e.g. alexsmith@gmail.com" v-model="usuario.photo">
+                  </div>
                 </div>
 
                  <div class="field">
                   <label class="label">Activo</label>
                   <div class="select">
-                    <select v-model="usuario.activo">
+                    <select v-model="usuario.active">
                         <option>Si</option>
                         <option>No</option>
                     </select>
@@ -87,11 +84,12 @@
         <table class="table">
           <thead>
             <tr>
+              <th>Id</th>
               <th>Nombres</th>
               <th>Apellidos</th>
-              <th>Email</th>
-              <th>Dependencia</th>
-              <th>Valido hasta</th>
+              <th>Usuario</th>
+              <th>Identificacion</th>
+              <th>Foto</th>
               <th>Activo</th>
               <th>Editar</th>
               <th>Eliminar</th>
@@ -99,14 +97,15 @@
           </thead>
           <tbody>
             <tr v-for="usert in usuarios" :key="usert.email">
-              <td>{{usert.nombres}}</td>
-              <td>{{usert.apellidos}}</td>
-              <td>{{usert.email}}</td>
-              <td>{{usert.dependencia}}</td>
-              <td>{{usert.validohasta}}</td>
-              <td>{{usert.activo}}</td>
+              <td>{{usert.id}}</td>
+              <td>{{usert.firtsname}}</td>
+              <td>{{usert.lastname}}</td>
+              <td>{{usert.username}}</td>
+              <td>{{usert.identification}}</td>
+              <td>{{usert.photo}}</td>
+              <td>{{usert.active}}</td>
               <td><button type="submit" class="button is-primary" @click.prevent="editar()">Editar</button></td>
-              <td><button type="submit" class="button is-primary" @click.prevent="eliminar(usert)">Eliminar</button></td>
+              <td><button type="submit" class="button is-primary" @click.prevent="eliminar(usert.id)">Eliminar</button></td>
             </tr>
           </tbody>
         </table>
@@ -120,126 +119,72 @@
 <script>
 //import '@vizuaalog/bulmajs';
 //import 'bulma'
-import db from '../firebase/init'
-import firebase from 'firebase'
+import axios from "axios";
 export default {
   data() {
     return {
       isActive: 'pictures',
-      ref: db.collection('users'),
       usuario: {},
       usuarios: [],
-      dependencias: [],
-      dependenciatemp: '',
+      data: '',
       error: ''
     }
   }, name : 'Usuarios',
   created(){
-      this.listarDependencias();
       this.listarUsuarios()
   },
   methods: {
-    async listarDependencias(){
-        try {
-            const resDB = await db.collection('dependencias').get()
-
-            resDB.forEach(res => {
-                //console.log(res);
-                const dep = {
-                    id: res.id,
-                    nombre: res.data().nombre,
-                    coordinador: res.data().coordinador,
-                    maximo: res.data().maximo,
-                    ubicacion: res.data().ubicacion,
-                    activa: res.data().activa,
-                    users: res.data().users
-                }
-                this.dependencias.push(dep)
-
-                //console.log(this.dependencias)
-            });
-        } catch (error) {
-            console.log(error)
-        }
-    },
+    
     async listarUsuarios(){
       try {
-        const resDB = await db.collection('users').get()
-
         this.usuarios.splice(0, this.usuarios.length)
-        
-        resDB.forEach(res => {
-            //console.log(res);
-            const us = {
-                id: res.id,
-                nombres: res.data().nombres,
-                apellidos: res.data().apellidos,
-                email: res.data().email,
-                password: res.data().password,
-                dependencia: res.data().dependencia,
-                validohasta: res.data().validohasta,
-                activo: res.data().activo
-            }
-            
-            this.usuarios.push(us)
 
-            //console.log(this.dependencias)
+        await axios.get("http://localhost:3000/users/").then(res => {
+          this.data = res.data;
+          console.log(this.data);
+          this.data.forEach(element => {
+            const us = {
+                id: element._id,
+                firtsname: element.firtsname,
+                lastname: element.lastname,
+                username: element.username,
+                identification: element.identification,
+                password: element.password,
+                photo: element.photo,
+                active: element.active
+            }
+              
+            this.usuarios.push(us)
+          });
+          
         });
-        
       } catch (error) {
         console.log(error)
       }
+      
+
     },
-    register(){
+    async register(){
 
-      this.error = ''
-      if (this.usuario.nombres && this.usuario.apellidos && this.usuario.email && this.usuario.password) {
-        firebase.auth().createUserWithEmailAndPassword(this.usuario.email, this.usuario.password)
-          .then(user => {
-            //actualizar el usuario
-            if (user) {         
-
-
-              this.dependenciatemp = this.dependencias.find(element => element.nombre === this.usuario.dependencia);
-              this.dependenciatemp.users.push({
-                nombre: this.usuario.nombres, 
-                apellido: this.usuario.apellidos,
-                email: this.usuario.email
-              });
-
-              const updateRef = db.collection('dependencias').doc(this.dependenciatemp.id);
-              updateRef.set(this.dependenciatemp).then((docRef) => {
-                console.log(docRef)
-              })
-
-              this.ref.add(this.usuario).then((docRef) =>{
-                console.log(docRef);
-                this.usuario.nombres = ''
-                this.usuario.apellidos = ''
-                this.usuario.email = ''
-                this.usuario.password = ''
-                this.usuario.validohasta = ''
-                this.usuario.dependencia = ''
-                this.usuario.activo = ''
-                //this.$router.push({name: 'usuarios'})  
-              })
-
-              this.listarUsuarios()
-                 
-            }            
-          }).catch(err => {
-            this.error = err.message
-          })
-      }else {
-        this.error = 'Todos los campos son requeridos'
+      if(this.usuario.active == "Si"){
+        this.usuario.active = true;
+      }else{
+        this.usuario.active = false;
       }
+
+      await axios.post("http://localhost:3000/users/", this.usuario).then((result) => {
+        console.log(result);
+      })
+
+      this.listarUsuarios()
     },
     editar(){
-      console.log("editar")
     },
-    eliminar(usert){
-      //console.log(usert.data.id)
-      this.ref.doc(usert.id).delete();
+    async eliminar(id){
+      await axios.delete("http://localhost:3000/users/" + id).then((result) => {
+        console.log(result);
+      });
+      
       this.listarUsuarios()
     }
   }

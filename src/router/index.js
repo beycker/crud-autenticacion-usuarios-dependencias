@@ -1,11 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/Home.vue'
+//import Home from '../views/Home.vue'
 import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
-import Dependencias from '../views/Dependencias.vue'
 import Usuarios from '../views/Usuarios.vue'
-import Detalle from '../views/Detalledep.vue'
 //import Wall from '../views/Wall.vue'
 import firebase from 'firebase'
 
@@ -15,8 +13,8 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'usuarios',
+      component: Usuarios
     },
     {
       path: '/login',
@@ -27,24 +25,6 @@ const router = new Router({
       path: '/register',
       name: 'register',
       component: Register
-    },
-    {
-      path: '/dependencias',
-      name: 'dependencias',
-      component: Dependencias,
-      props: true,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/detalle',
-      name: 'detalle',
-      component: Detalle,
-      props: true,
-      meta: {
-        requiresAuth: true
-      }
     },
     {
       path: '/usuarios',
