@@ -6,8 +6,7 @@ import Register from '../views/Auth/Register.vue'
 import Usuarios from '../views/Usuarios.vue'
 //import Wall from '../views/Wall.vue'
 import firebase from 'firebase'
-import Editar from '../views/Editardep.vue'
-import Editarusr from '../views/Editarusr.vue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -26,42 +25,6 @@ const router = new Router({
       path: '/register',
       name: 'register',
       component: Register
-    },
-    {
-      path: '/dependencias',
-      name: 'dependencias',
-      component: Dependencias,
-      props: true,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/detalle',
-      name: 'detalle',
-      component: Detalle,
-      props: true,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/editar',
-      name: 'editar',
-      component: Editar,
-      props: true,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/editarusr',
-      name: 'editarusr',
-      component: Editarusr,
-      props: true,
-      meta: {
-        requiresAuth: true
-      }
     },
     {
       path: '/usuarios',

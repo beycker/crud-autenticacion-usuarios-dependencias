@@ -68,7 +68,7 @@
 
                 
 
-                <button type="submit" class="button is-primary" @click.prevent="register()" >Crear</button>
+                <button type="submit" class="button is-primary">Crear</button>
               </form>
 
               <div class="notification is-danger mt-10" v-if="error">  
@@ -81,24 +81,6 @@
       </div>
       <div class="content" v-bind:class="{ 'is-active': isActive == 'music' }">
         
-         <div class="field has-addons has-addons-centered">
-          <p class="control">
-            <input class="input" type="text" v-model="search" placeholder="Por ejemplo Andrés"/>
-          </p>
-          <p class="control">
-            <a class="button is-primary"  @click.prevent="filtrarUsuariosN()"> Buscar por nombre </a>
-          </p>
-        </div>
-
-              <div class="field has-addons has-addons-centered">
-          <p class="control">
-            <input class="input" type="text" v-model="searchd" placeholder="Por ejemplo Ventas"/>
-          </p>
-          <p class="control">
-            <a class="button is-primary"  @click.prevent="filtrarUsuariosD()"> Buscar por dependencia </a>
-          </p>
-        </div>
-
         <table class="table">
           <thead>
             <tr>
@@ -113,20 +95,7 @@
               <th>Eliminar</th>
             </tr>
           </thead>
-          <tbody v-if="this.usuariosBuscados.length>0">
-            <tr v-for="usert in usuariosBuscados" :key="usert.email">
-              <td>{{usert.nombres}}</td>
-              <td>{{usert.apellidos}}</td>
-              <td>{{usert.email}}</td>
-              <td>{{usert.dependencia}}</td>
-              <td>{{usert.validohasta}}</td>
-              <td>{{usert.activo}}</td>
-              <td><button type="submit" class="button is-primary" @click.prevent="editar(usert)">Editar</button></td>
-              <td><button type="submit" class="button is-primary" @click.prevent="eliminar(usert)">Eliminar</button></td>
-            </tr>
-          </tbody>
-
-          <tbody v-if="this.usuariosBuscados.length==0">
+          <tbody>
             <tr v-for="usert in usuarios" :key="usert.email">
               <td>{{usert.id}}</td>
               <td>{{usert.firtsname}}</td>
@@ -217,7 +186,6 @@ export default {
       });
       
       this.listarUsuarios()
-
     }
   }
 }
