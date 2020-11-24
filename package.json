@@ -2,10 +2,12 @@
   "name": "crud-autenticacion",
   "version": "0.1.0",
   "private": true,
+
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -26,7 +28,8 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "execa": "latest"
   },
   "eslintConfig": {
     "root": true,
